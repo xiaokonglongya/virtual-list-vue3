@@ -1,15 +1,30 @@
 {
-  "name": "virtual-list-vue3",
-  "private": true,
-  "version": "0.0.0",
+  "name": "am-virtual-list-vue3",
+  "version": "0.0.1",
+  "description": "Vue 3 virtual list component",
+  "repository": "https://github.com/xiaokonglongya/virtual-list-vue3",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
+    "build:example": "vue-tsc && vite --config vite.example.config.ts build",
     "preview": "vite preview"
   },
+  "keywords": [
+    "vue3",
+    "virtual-list",
+    "virtual-scroll",
+    "vue-virtual-scroll-list",
+    "vue-virtual-scroll",
+    "vue-virtual-list",
+    "vue3-virtual-list"
+  ],
   "dependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
+    "vite-plugin-dts": "^3.0.3",
     "vue": "^3.2.47"
   },
   "devDependencies": {

@@ -6,10 +6,17 @@ export default {
     required: true,
     default: () => [],
   },
+  /**唯一key */
+  resouceKey: {
+    type: [String, Function] as PropType<string | Function>,
+    required: true,
+    default: 'id',
+  },
   /**每项高度 */
-  itemHeight: {
+  estimateSize: {
     type: Number as PropType<number>,
-    default: 50,
+    required: true,
+    default: 30,
   },
   /**展示数量 */
   visibleCount: {
@@ -17,8 +24,6 @@ export default {
     required: true,
     default: 10,
   },
-  /**展示类型 */
-  calcType: String as PropType<'dynamic' | 'static'>,
   /**渲染组件 */
   renderComponent: Object,
 }

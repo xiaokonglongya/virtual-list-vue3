@@ -1,19 +1,23 @@
 <template>
-  <div
-    class="item"
-    style="
-      display: flex;
-      height: 50px;
-      align-items: center;
-      background-color: antiquewhite;
-      border-bottom: 1px saddlebrown solid;
-    "
-  >
-    <div class="item__id">{{ item.id }}</div>
-    <div class="item__name">{{ item.name }}</div>
-    <div class="item__age">{{ item.age }}</div>
-    <div class="item__address">{{ item.address }}</div>
-    <div class="item__desc">{{ item.desc }}</div>
+  <div class="item">
+    <template v-if="onlyName">
+      <div class="info">
+        <div class="index">{{ item.id }}</div>
+        <div class="item__name">姓名：{{ item.name }}</div>
+      </div>
+    </template>
+    <template v-else>
+      <div class="image" v-if="showAvatar">
+        <img :src="item.avatar" />
+      </div>
+      <div class="info">
+        <div class="index">{{ item.id }}</div>
+        <div class="item__name">姓名：{{ item.name }}</div>
+        <div class="item__age">年龄：{{ item.age }}</div>
+        <div class="item__address">地址：{{ item.address }}</div>
+        <div class="item__desc">描述：{{ item.desc }}</div>
+      </div>
+    </template>
   </div>
 </template>
 <script setup lang="ts">
@@ -22,5 +26,48 @@ defineProps({
     type: Object,
     required: true,
   },
+  showAvatar: {
+    type: Boolean,
+    default: true,
+  },
+  onlyName: {
+    type: Boolean,
+    default: false,
+  },
 })
 </script>
+<style>
+.item {
+  display: flex;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background-color: #fff;
+}
+.item .image img {
+  max-height: 160px;
+  border-radius: 10px;
+}
+.item .info {
+  flex: 1;
+  font-size: 12px;
+  position: relative;
+  padding-left: 30px;
+}
+.item .info .index {
+  position: absolute;
+  text-align: center;
+  right: -150px;
+  top: -10px;
+  background-color: yellowgreen;
+  width: 300px;
+  height: 40px;
+  line-height: 40px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  transform: rotateZ(45deg);
+}
+</style>

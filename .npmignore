@@ -1,0 +1,11 @@
+node_modules
+src
+.gitignore
+package-lock.json
+vite.*
+index.html
+dist/tools.d.ts
+.vscode
+tsconfig.json
+tsconfig.node.json
+
