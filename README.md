@@ -11,7 +11,7 @@ npm i am-virtual-list-vue3
 
 ## 用法
 
-main.js 引入组件和样式,将会自动注册组件和指令两种使用方式，不要忘记导入样式。
+在需要的地方引入组件和样式即可使用,组件名为 `vertual-list`,组件内部使用 `slot` 插槽渲染子组件,在您的子组件中可以使用 `props`中加入`item` 接收当前渲染的内容
 
 ```vue
 <script setup>
