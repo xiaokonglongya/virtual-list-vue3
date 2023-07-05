@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { defineComponent, ref } from 'vue'
+import { ref } from 'vue'
 import VertualList from './components/VertualList/index.tsx'
 import Item from './components/item.vue'
+import Item2 from './components/item2.vue'
 import { faker } from '@faker-js/faker'
 let _arrs = ref<any>([])
 _arrs.value = Object.freeze(
@@ -17,15 +18,6 @@ _arrs.value = Object.freeze(
   })
 )
 
-const item3 = defineComponent({
-  extends: Item,
-  props: {
-    showAvatar: {
-      type: Boolean,
-      default: false,
-    },
-  },
-})
 const onBottom = () => {
   console.log('到底了')
 }
@@ -58,7 +50,7 @@ const vertualListRef = ref()
         ref="vertualListRef"
         :resouce="_arrs"
         :resouce-key="(item:any) => item.id + item.name"
-        :render-component="item3"
+        :render-component="Item2"
         :visible-count="60"
         :estimate-size="150"
         @to-bottom="onBottom"
