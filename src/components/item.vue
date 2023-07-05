@@ -1,23 +1,15 @@
 <template>
   <div class="item">
-    <template v-if="onlyName">
-      <div class="info">
-        <div class="index">{{ item.id }}</div>
-        <div class="item__name">姓名：{{ item.name }}</div>
-      </div>
-    </template>
-    <template v-else>
-      <div class="image" v-if="showAvatar">
-        <img :src="item.avatar" />
-      </div>
-      <div class="info">
-        <div class="index">{{ item.id }}</div>
-        <div class="item__name">姓名：{{ item.name }}</div>
-        <div class="item__age">年龄：{{ item.age }}</div>
-        <div class="item__address">地址：{{ item.address }}</div>
-        <div class="item__desc">描述：{{ item.desc }}</div>
-      </div>
-    </template>
+    <div class="image">
+      <img :src="item.avatar" />
+    </div>
+    <div class="info">
+      <div class="index">{{ item.id }}</div>
+      <div class="item__name">姓名：{{ item.name }}</div>
+      <div class="item__age">年龄：{{ item.age }}</div>
+      <div class="item__address">地址：{{ item.address }}</div>
+      <div class="item__desc">描述：{{ item.desc }}</div>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -25,14 +17,6 @@ defineProps({
   item: {
     type: Object,
     required: true,
-  },
-  showAvatar: {
-    type: Boolean,
-    default: true,
-  },
-  onlyName: {
-    type: Boolean,
-    default: false,
   },
 })
 </script>

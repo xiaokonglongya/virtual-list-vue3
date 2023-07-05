@@ -80,3 +80,4 @@ const vertualListRef = ref()
   margin: 0;
 }
 </style>
+./components/item2.tsx/index.ts
