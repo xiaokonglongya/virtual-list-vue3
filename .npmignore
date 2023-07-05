@@ -5,6 +5,7 @@ package-lock.json
 vite.*
 index.html
 dist/tools.d.ts
+docs
 .vscode
 tsconfig.json
 tsconfig.node.json
