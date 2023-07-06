@@ -1,6 +1,6 @@
 {
   "name": "am-virtual-list-vue3",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Vue 3 virtual list component",
   "repository": "https://github.com/xiaokonglongya/virtual-list-vue3",
   "main": "dist/index.js",

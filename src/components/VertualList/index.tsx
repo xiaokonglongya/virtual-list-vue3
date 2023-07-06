@@ -58,16 +58,10 @@ export default defineComponent({
     })
 
     const hanleItemChange = (source: any, height: number) => {
-      const index = props.resouce.findIndex((item: any) => {
-        return getUniqueId(item) === getUniqueId(source)
-      })
       const key = getUniqueId(source)
 
       const _height = height + props.gap
-      vertual.setSize(key, {
-        height: _height,
-        index,
-      })
+      vertual.setSize(key, _height)
     }
 
     /**
@@ -135,29 +129,35 @@ export default defineComponent({
     }
     const scrollToOffset = (offset: number, smooth?: boolean) => {
       const root = rootRef.value
-      root?.scrollTo({
+      root?.scroll({
+        left: 0,
         top: offset,
         behavior: smooth ? 'smooth' : 'auto',
       })
     }
+    const shepherd = ref<HTMLElement>()
     const scrollToBottom = (smooth?: boolean) => {
-      const root = rootRef.value
-      root?.scrollTo({
-        top: root.scrollHeight,
-        behavior: smooth ? 'smooth' : 'auto',
-      })
+      if (shepherd.value) {
+        const offset = shepherd.value.offsetTop
+        scrollToOffset(offset, smooth)
+      }
     }
     const scrollToIndex = (index: number, smooth: boolean) => {
-      if (index > props.resouce.length - 1) {
+      if (index >= props.resouce.length - 1) {
         scrollToBottom(smooth)
       } else {
         const offset = vertual.getIndexOffset(index)
         scrollToOffset(offset, smooth)
       }
     }
+
+    const getSizes = () => {
+      return vertual.sizes.size
+    }
     context.expose({
       scrollToIndex,
       scrollToBottom,
+      getSizes,
     })
 
     return () => {
@@ -173,7 +173,7 @@ export default defineComponent({
             }}>
             {renderSlots()}
           </div>
-          <div style={{ width: '100%', height: '0px' }}></div>
+          <div ref={shepherd} style={{ width: '100%', height: '0px' }}></div>
         </div>
       )
     }

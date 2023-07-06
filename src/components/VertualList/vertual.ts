@@ -30,13 +30,7 @@ export type Range = {
   endFront: number
 }
 export default class Vertual {
-  sizes = new Map<
-    string,
-    {
-      height: number
-      index: number
-    }
-  >()
+  sizes = new Map<string, number>()
   options: IVertual | null = null
 
   /**取值区间 */
@@ -118,14 +112,14 @@ export default class Vertual {
   }
 
   /**设置指定UID高度 */
-  setSize(uid: string, size: { height: number; index: number }) {
+  setSize(uid: string, size: number) {
     this.sizes.set(uid, size)
-    this.sizes = new Map(Array.from(this.sizes).sort((a, b) => a[1].index - b[1].index))
+
     // 初始化计算类型
     if (this.calcType === CALCTYPE.INIT) {
-      this.fixedSizeHeight = size.height
+      this.fixedSizeHeight = size
       this.calcType = CALCTYPE.FIXED
-    } else if (this.calcType === CALCTYPE.FIXED && this.fixedSizeHeight !== size.height) {
+    } else if (this.calcType === CALCTYPE.FIXED && this.fixedSizeHeight !== size) {
       this.calcType = CALCTYPE.DYNAMIC
       delete this.fixedSizeHeight
     }
@@ -133,7 +127,7 @@ export default class Vertual {
     if (this.options && this.calcType !== CALCTYPE.FIXED && typeof this.firstRangeTotalSize !== void 0) {
       // 如果当前储存的大小数量大于可见数量或者总数,则重新计算
       if (this.sizes.size < Math.min(this.options.visibleCount, this.options.uniqueIds.length)) {
-        this.firstRangeTotalSize = [...this.sizes.values()].reduce((a, b) => a + b.height, 0)
+        this.firstRangeTotalSize = [...this.sizes.values()].reduce((a, b) => a + b, 0)
         this.firstRangeAverageSize = Math.round(this.firstRangeTotalSize / this.sizes.size)
       } else {
         delete this.firstRangeTotalSize
@@ -213,7 +207,7 @@ export default class Vertual {
     let offset = 0
     let index_size: undefined | number = 0
     for (let index = 0; index < gindex; index++) {
-      index_size = this.sizes.get(this.options.uniqueIds[index])?.height
+      index_size = this.sizes.get(this.options.uniqueIds[index])
       if (typeof index_size === 'number') {
         offset += index_size
       } else {

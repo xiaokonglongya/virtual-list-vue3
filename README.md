@@ -76,6 +76,14 @@ watch(
 | bottomthreshold  | number          | 触底阈值                                                              | 0      | 0.0.4 |
 | topthreshold     | number          | 触顶阈值                                                              | 0      | 0.0.4 |
 
+## 方法
+
+通过 Ref 进行调用
+| 方法名称 | 说明 | 参数 |
+| -------- | -------- | ---- |
+| scrollToIndex | 滚动到指定索引 | index:number |
+| getSizes | 获取大小 | - |
+
 ## 事件
 
 | 事件名称  | 说明     | 回调参数          |
