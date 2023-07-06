@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import VertualList from './components/VertualList/index.tsx'
 import Item from './components/item.vue'
 import Item2 from './components/item2.vue'
+
 import { faker } from '@faker-js/faker'
 let _arrs = ref<any>([])
 _arrs.value = Object.freeze(
@@ -39,6 +40,7 @@ const vertualListRef = ref()
         :render-component="Item"
         :visible-count="60"
         :estimate-size="150"
+        :gap="20"
         @to-bottom="onBottom"
         @to-top="onTop"
         @scroll="onScroll"
@@ -53,6 +55,7 @@ const vertualListRef = ref()
         :render-component="Item2"
         :visible-count="60"
         :estimate-size="150"
+        :gap="20"
         @to-bottom="onBottom"
         @on-top="onTop"
         @scroll="onScroll"
@@ -80,4 +83,3 @@ const vertualListRef = ref()
   margin: 0;
 }
 </style>
-./components/item2.tsx/index.ts

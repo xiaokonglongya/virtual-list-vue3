@@ -5,6 +5,8 @@ interface IVertual {
   visibleCount: number
   /** item 估计高度 */
   estimateSize: number
+  /**唯一key的数组 */
+  uniqueIds: Array<string>
 }
 /** 子内容高度类型 */
 const CALCTYPE = {
@@ -70,7 +72,7 @@ export default class Vertual {
     this.updateView = update
     this.range = Object.create(null) as Range
     if (options) {
-      this.uniqueIds.length = this.options.resouce.length
+      this.uniqueIds = this.options.uniqueIds
       this.checkRange(0, options.visibleCount - 1)
     }
   }
@@ -148,7 +150,6 @@ export default class Vertual {
     while (low <= high) {
       middle = low + Math.floor((high - low) / 2)
       middleOffset = this.getIndexOffset(middle)
-
       if (middleOffset === offset) {
         return middle
       } else if (middleOffset < offset) {

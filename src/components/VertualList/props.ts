@@ -26,4 +26,9 @@ export default {
   },
   /**渲染组件 */
   renderComponent: Object,
+  /**间隔 */
+  gap: {
+    type: Number as PropType<number>,
+    default: 0,
+  },
 }

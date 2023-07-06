@@ -38,13 +38,14 @@ import 'am-virtual-list-vue3/dist/style.css'
 
 ## 参数
 
-| 参数             | 类型            | 描述                                 | 默认值 |
-| ---------------- | --------------- | ------------------------------------ | ------ |
-| resouce          | Array           | 数据源                               | 必填   |
-| resouce-key      | Function/String | 数据源的唯一 key                     | 必填   |
-| render-component | Component       | 渲染的子组件                         | 必填   |
-| visible-count    | number          | 可见数量                             | 10     |
-| estimate-size    | number          | 预估高度，越接近真实高度滚动条越真实 | 30     |
+| 参数             | 类型            | 描述                                                                  | 默认值 | 版本  |
+| ---------------- | --------------- | --------------------------------------------------------------------- | ------ | ----- |
+| resouce          | Array           | 数据源                                                                | 必填   | -     |
+| resouce-key      | Function/String | 数据源的唯一 key                                                      | 必填   | -     |
+| render-component | Component       | 渲染的子组件                                                          | 必填   | -     |
+| visible-count    | number          | 可见数量                                                              | 10     | -     |
+| estimate-size    | number          | 预估高度，越接近真实高度滚动条越真实                                  | 30     | -     |
+| gap              | number          | 间隔,请使用间隔设置每个 item 的间距，避免在 item 中是使用 margin 属性 | 0      | 0.0.3 |
 
 ## 事件
 

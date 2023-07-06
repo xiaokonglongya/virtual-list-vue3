@@ -15,6 +15,7 @@ export default defineComponent({
           resouce: props.resouce,
           estimateSize: props.estimateSize,
           visibleCount: props.visibleCount,
+          uniqueIds: getUniqueIdFromDataSources(),
         },
         (value: Range) => {
           range.value = { ...value }
@@ -52,8 +53,10 @@ export default defineComponent({
         return getUniqueId(item) === getUniqueId(source)
       })
       const key = getUniqueId(source)
+
+      const _height = height + props.gap
       vertual.setSize(key, {
-        height,
+        height: _height,
         index,
       })
     }
@@ -75,6 +78,7 @@ export default defineComponent({
               key={_key}
               index={i}
               source={_item}
+              gapY={props.gapY}
               comp={props.renderComponent}
               onHeightChange={hanleItemChange}></ComItem>
           )
@@ -150,6 +154,9 @@ export default defineComponent({
           <div
             style={{
               padding: `${startFront}px 0px ${endFront}px 0px`,
+              display: 'flex',
+              flexDirection: props.direction === 'horizontal' ? 'row' : 'column',
+              gap: `${props.gap}px`,
             }}>
             {renderSlots()}
           </div>

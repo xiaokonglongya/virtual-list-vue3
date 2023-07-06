@@ -27,7 +27,6 @@ defineProps({
   padding: 10px 20px;
   border-radius: 5px;
   overflow: hidden;
-  margin-bottom: 20px;
   background-color: #fff;
 }
 .item .image img {
