@@ -3,6 +3,13 @@ import Vertual, { Range } from './vertual'
 import props from './props'
 import ComItem from './item'
 import './style.css'
+export interface ScrollEvent {
+  offset: number
+  clientHeight: number
+  scrollHeight: number
+  bottom: boolean
+  top: boolean
+}
 export default defineComponent({
   name: 'VertualList',
   props,
@@ -106,18 +113,23 @@ export default defineComponent({
       return Math.ceil(root?.scrollHeight || 0)
     }
 
-    const onScroll = () => {
+    const onScroll = (event: UIEvent) => {
+      event.stopImmediatePropagation()
       const offset = getOffset()
       const clientHeight = getClientHeight()
       const scrollHeight = getScrollHeight()
+
+      const bottom = offset + props.bottomthreshold + clientHeight >= scrollHeight
+      const top = offset - props.topthreshold <= 0 && !!props.resouce.length
+
       vertual.handScroll(offset)
-      context.emit('scroll', { offset, clientHeight, scrollHeight })
+      context.emit('scroll', { offset, clientHeight, scrollHeight, bottom, top })
       // 触底事件
-      if (vertual.isBehind() && offset + clientHeight >= scrollHeight) {
+      if (vertual.isBehind() && offset + props.bottomthreshold + clientHeight >= scrollHeight) {
         context.emit('toBottom')
       }
       // 触顶事件
-      if (vertual.isFront() && offset <= 0 && !!props.resouce.length) {
+      if (vertual.isFront() && offset - props.topthreshold <= 0 && !!props.resouce.length) {
         context.emit('toTop')
       }
     }

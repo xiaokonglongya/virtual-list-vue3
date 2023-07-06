@@ -31,4 +31,14 @@ export default {
     type: Number as PropType<number>,
     default: 0,
   },
+  /**触发到达底部阈值 */
+  bottomthreshold: {
+    type: Number as PropType<number>,
+    default: 0,
+  },
+  /**触发到达顶部阈值 */
+  topthreshold: {
+    type: Number as PropType<number>,
+    default: 0,
+  },
 }

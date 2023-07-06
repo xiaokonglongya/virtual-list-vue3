@@ -36,6 +36,33 @@ import 'am-virtual-list-vue3/dist/style.css'
 </template>
 ```
 
+你可以通过 `to-bottom` `to-top`来获取触底触顶事件,但请注意，在设置阈值的情况下会频繁触发，所以请在事件中做好节流处理或使用以下方法进行处理
+
+```ts
+const bottom = ref(false)
+const top = ref(false)
+const onScroll = (event: ScrollEvent) => {
+  bottom.value = event.bottom
+  top.value = event.top
+}
+watch(
+  () => bottom.value,
+  (val) => {
+    if (val) {
+      console.log('触底')
+    }
+  }
+)
+watch(
+  () => top.value,
+  (val) => {
+    if (val) {
+      console.log('触顶')
+    }
+  }
+)
+```
+
 ## 参数
 
 | 参数             | 类型            | 描述                                                                  | 默认值 | 版本  |
@@ -46,24 +73,30 @@ import 'am-virtual-list-vue3/dist/style.css'
 | visible-count    | number          | 可见数量                                                              | 10     | -     |
 | estimate-size    | number          | 预估高度，越接近真实高度滚动条越真实                                  | 30     | -     |
 | gap              | number          | 间隔,请使用间隔设置每个 item 的间距，避免在 item 中是使用 margin 属性 | 0      | 0.0.3 |
+| bottomthreshold  | number          | 触底阈值                                                              | 0      | 0.0.4 |
+| topthreshold     | number          | 触顶阈值                                                              | 0      | 0.0.4 |
 
 ## 事件
 
-| 事件名称  | 说明     | 回调参数    |
-| --------- | -------- | ----------- |
-| to-bottom | 触底事件 | -           |
-| to-top    | 触顶事件 | -           |
-| scroll    | 滚动事件 | event:Event |
+| 事件名称  | 说明     | 回调参数          |
+| --------- | -------- | ----------------- |
+| to-bottom | 触底事件 | -                 |
+| to-top    | 触顶事件 | -                 |
+| scroll    | 滚动事件 | event:ScrollEvent |
 
 ## 类型
 
 `Event` 滚动事件参数 event
 
 ```ts
-interface Event {
+interface ScrollEvent {
   offset: number
   clientHeight: number
   scrollHeight: number
+  /**是否在底部 */
+  bottom: boolean
+  /**是否在顶部 */
+  top: boolean
 }
 ```
 

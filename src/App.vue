@@ -3,10 +3,10 @@ import { ref } from 'vue'
 import VertualList from './components/VertualList/index.tsx'
 import Item from './components/item.vue'
 import Item2 from './components/item2.vue'
-
+import { ScrollEvent } from './components/VertualList/index'
 import { faker } from '@faker-js/faker'
 let _arrs = ref<any>([])
-_arrs.value = new Array(3).fill(0).map((_, i) => {
+_arrs.value = new Array(100).fill(0).map(() => {
   return {
     id: faker.string.uuid(),
     name: faker.person.fullName(),
@@ -16,18 +16,13 @@ _arrs.value = new Array(3).fill(0).map((_, i) => {
     avatar: faker.image.avatar(),
   }
 })
-
-const onBottom = () => {
-  console.log('到底了')
-  addData()
+const onScroll = (event: ScrollEvent) => {
+  console.log('onScroll', event)
 }
-const onTop = () => {
-  console.log('到顶了')
-}
-const onScroll = () => {}
 const vertualListRef = ref()
 const addData = () => {
-  const data = new Array(6).fill(0).map((_, i) => {
+  console.log('addData')
+  const data = new Array(6).fill(0).map(() => {
     return {
       id: faker.string.uuid(),
       name: faker.person.fullName(),
@@ -37,9 +32,7 @@ const addData = () => {
       avatar: faker.image.avatar(),
     }
   })
-  setTimeout(() => {
-    _arrs.value = [..._arrs.value, ...data]
-  }, 1000)
+  _arrs.value = [..._arrs.value, ...data]
 }
 </script>
 
@@ -56,8 +49,7 @@ const addData = () => {
         :visible-count="30"
         :estimate-size="150"
         :gap="20"
-        @to-bottom="onBottom"
-        @to-top="onTop"
+        :bottomthreshold="60"
         @scroll="onScroll"
       />
     </div>
@@ -71,8 +63,6 @@ const addData = () => {
         :visible-count="60"
         :estimate-size="150"
         :gap="20"
-        @to-bottom="onBottom"
-        @to-top="onTop"
         @scroll="onScroll"
       />
     </div>
