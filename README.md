@@ -66,3 +66,7 @@ interface Event {
   scrollHeight: number
 }
 ```
+
+## 参考项目
+
+[ChatMall](https://github.com/Evansy/MallChatWeb)：抹茶聊天是一个 IM 项目，通过 netty 实现和前端的 websocket 连接。
