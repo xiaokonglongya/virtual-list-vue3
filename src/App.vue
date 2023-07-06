@@ -6,10 +6,30 @@ import Item2 from './components/item2.vue'
 
 import { faker } from '@faker-js/faker'
 let _arrs = ref<any>([])
-_arrs.value = Object.freeze(
-  new Array(1000).fill(0).map((_, i) => {
+_arrs.value = new Array(3).fill(0).map((_, i) => {
+  return {
+    id: faker.string.uuid(),
+    name: faker.person.fullName(),
+    age: faker.number.int({ min: 1, max: 100 }),
+    address: faker.location.streetAddress(),
+    desc: faker.person.jobDescriptor(),
+    avatar: faker.image.avatar(),
+  }
+})
+
+const onBottom = () => {
+  console.log('到底了')
+  addData()
+}
+const onTop = () => {
+  console.log('到顶了')
+}
+const onScroll = () => {}
+const vertualListRef = ref()
+const addData = () => {
+  const data = new Array(6).fill(0).map((_, i) => {
     return {
-      id: i,
+      id: faker.string.uuid(),
       name: faker.person.fullName(),
       age: faker.number.int({ min: 1, max: 100 }),
       address: faker.location.streetAddress(),
@@ -17,19 +37,14 @@ _arrs.value = Object.freeze(
       avatar: faker.image.avatar(),
     }
   })
-)
-
-const onBottom = () => {
-  console.log('到底了')
+  setTimeout(() => {
+    _arrs.value = [..._arrs.value, ...data]
+  }, 1000)
 }
-const onTop = () => {
-  console.log('到顶了')
-}
-const onScroll = () => {}
-const vertualListRef = ref()
 </script>
 
 <template>
+  <button @click="addData">添加数据</button>
   <div class="content">
     <div class="content-item">
       <p>有图片的非固定高度</p>
@@ -38,7 +53,7 @@ const vertualListRef = ref()
         :resouce="_arrs"
         :resouce-key="(item:any) => item.id + item.name"
         :render-component="Item"
-        :visible-count="60"
+        :visible-count="30"
         :estimate-size="150"
         :gap="20"
         @to-bottom="onBottom"
@@ -49,7 +64,7 @@ const vertualListRef = ref()
     <div class="content-item">
       <p>没图片的固定高度</p>
       <vertual-list
-        ref="vertualListRef"
+        ref="vertualListRef2"
         :resouce="_arrs"
         :resouce-key="(item:any) => item.id + item.name"
         :render-component="Item2"

@@ -16,6 +16,7 @@ export default defineComponent({
           estimateSize: props.estimateSize,
           visibleCount: props.visibleCount,
           uniqueIds: getUniqueIdFromDataSources(),
+          buffer: Math.round(props.visibleCount / 2),
         },
         (value: Range) => {
           range.value = { ...value }
@@ -38,7 +39,8 @@ export default defineComponent({
     watch(
       () => props.resouce.length,
       () => {
-        vertual.updateUniqueIds(getUniqueIdFromDataSources())
+        vertual.updateParams('uniqueIds', getUniqueIdFromDataSources())
+        vertual.handleSourceDataChange()
       }
     )
     onBeforeMount(() => {

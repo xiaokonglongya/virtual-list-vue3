@@ -4,7 +4,7 @@
       <img :src="item.avatar" />
     </div>
     <div class="info">
-      <div class="index">{{ item.id }}</div>
+      <div class="item_uuid">{{ item.id }}</div>
       <div class="item__name">姓名：{{ item.name }}</div>
       <div class="item__age">年龄：{{ item.age }}</div>
       <div class="item__address">地址：{{ item.address }}</div>
