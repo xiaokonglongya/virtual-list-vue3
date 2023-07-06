@@ -57,7 +57,7 @@ const vertualListRef = ref()
         :estimate-size="150"
         :gap="20"
         @to-bottom="onBottom"
-        @on-top="onTop"
+        @to-top="onTop"
         @scroll="onScroll"
       />
     </div>

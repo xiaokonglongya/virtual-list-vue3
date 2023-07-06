@@ -78,7 +78,6 @@ export default defineComponent({
               key={_key}
               index={i}
               source={_item}
-              gapY={props.gapY}
               comp={props.renderComponent}
               onHeightChange={hanleItemChange}></ComItem>
           )
@@ -155,7 +154,7 @@ export default defineComponent({
             style={{
               padding: `${startFront}px 0px ${endFront}px 0px`,
               display: 'flex',
-              flexDirection: props.direction === 'horizontal' ? 'row' : 'column',
+              flexDirection: 'column',
               gap: `${props.gap}px`,
             }}>
             {renderSlots()}
