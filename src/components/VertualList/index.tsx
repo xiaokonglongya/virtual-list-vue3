@@ -1,5 +1,5 @@
-import { Ref, defineComponent, onBeforeMount, onMounted, ref, watch } from 'vue'
-import Vertual, { Range } from './vertual'
+import { Ref, defineComponent, onBeforeMount, onMounted, onUnmounted, ref, watch } from 'vue'
+import Vertual from './vertual'
 import props from './props'
 import ComItem from './item'
 import './style.css'
@@ -10,6 +10,13 @@ export interface ScrollEvent {
   bottom: boolean
   top: boolean
 }
+export interface Range {
+  start: number
+  end: number
+  startFront: number
+  endFront: number
+}
+
 export default defineComponent({
   name: 'VertualList',
   props,
@@ -31,7 +38,6 @@ export default defineComponent({
       )
       range.value = vertual.getRange()
     }
-
     const getUniqueId = (item: any) => {
       if (!item) return ''
       const { resouceKey } = props
@@ -56,10 +62,11 @@ export default defineComponent({
     onMounted(() => {
       context.emit('ok')
     })
+    onUnmounted(() => {
+      vertual.destroy()
+    })
 
-    const hanleItemChange = (source: any, height: number) => {
-      const key = getUniqueId(source)
-
+    const hanleItemChange = (key: string, height: number) => {
       const _height = height + props.gap
       vertual.setSize(key, _height)
     }
@@ -72,13 +79,12 @@ export default defineComponent({
       const slots = []
       const { start, end } = range.value
       for (let i = start; i <= end; i++) {
-        // 需要渲染的item
         const _item = props.resouce[i]
         const _key = getUniqueId(_item)
         if (_item && ['string', 'number'].includes(typeof _key)) {
           slots.push(
             <ComItem
-              key={_key}
+              uniqueKey={_key}
               index={i}
               source={_item}
               comp={props.renderComponent}
@@ -88,7 +94,7 @@ export default defineComponent({
       }
       return slots
     }
-    const rootRef = ref<HTMLElement>()
+
     /**获取滚动条偏移 */
     const getOffset = () => {
       const root = rootRef.value
@@ -135,14 +141,26 @@ export default defineComponent({
         behavior: smooth ? 'smooth' : 'auto',
       })
     }
-    const shepherd = ref<HTMLElement>()
+
+    /**滚动到底部 */
     const scrollToBottom = (smooth?: boolean) => {
       if (shepherd.value) {
         const offset = shepherd.value.offsetTop
         scrollToOffset(offset, smooth)
+        setTimeout(() => {
+          if (getOffset() + getClientHeight() < getScrollHeight()) {
+            scrollToBottom(smooth)
+          }
+        }, 3)
       }
     }
-    const scrollToIndex = (index: number, smooth: boolean) => {
+    /**
+     * 滚动到指定索引
+     * @param index 索引
+     * @param smooth 是否平滑滚动
+     * @returns
+     */
+    const scrollToIndex = (index: number, smooth?: boolean) => {
       if (index >= props.resouce.length - 1) {
         scrollToBottom(smooth)
       } else {
@@ -152,30 +170,35 @@ export default defineComponent({
     }
 
     const getSizes = () => {
-      return vertual.sizes.size
+      return vertual.sizes.size || 0
     }
-    context.expose({
+    const rootRef = ref<HTMLElement>()
+    const shepherd = ref<HTMLElement>()
+    return {
+      rootRef,
+      range,
+      shepherd,
+      onScroll,
+      renderSlots,
+      getSizes,
       scrollToIndex,
       scrollToBottom,
-      getSizes,
-    })
-
-    return () => {
-      const { startFront, endFront } = range.value
-      return (
-        <div ref={rootRef} onScroll={onScroll} class={'am-vertual-list'}>
-          <div
-            style={{
-              padding: `${startFront}px 0px ${endFront}px 0px`,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: `${props.gap}px`,
-            }}>
-            {renderSlots()}
-          </div>
-          <div ref={shepherd} style={{ width: '100%', height: '0px' }}></div>
-        </div>
-      )
     }
+  },
+  render() {
+    const { startFront, endFront } = this.range
+    return (
+      <div ref="rootRef" onScroll={this.onScroll} class={'am-vertual-list'}>
+        <div
+          class={'am-vertual-list__content'}
+          style={{
+            padding: `${startFront}px 0px ${endFront}px 0px`,
+            gap: `${this.gap}px`,
+          }}>
+          {this.renderSlots()}
+        </div>
+        <div ref="shepherd" style={{ width: '100%', height: '0px' }}></div>
+      </div>
+    )
   },
 })

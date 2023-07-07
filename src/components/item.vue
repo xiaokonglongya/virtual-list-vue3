@@ -18,6 +18,7 @@ defineProps({
     type: Object,
     required: true,
   },
+  uniqueKey: String,
 })
 </script>
 <style>

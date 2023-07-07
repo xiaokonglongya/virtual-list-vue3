@@ -1,3 +1,4 @@
+import { Range } from './index'
 interface IVertual {
   /**数据源 */
   resouce: Array<any>
@@ -23,12 +24,7 @@ const SCROLLTYPE = {
   /**向后 */
   BEHIND: 'behind',
 }
-export type Range = {
-  start: number
-  end: number
-  startFront: number
-  endFront: number
-}
+
 export default class Vertual {
   sizes = new Map<string, number>()
   options: IVertual | null = null
@@ -100,9 +96,9 @@ export default class Vertual {
   updateParams(key: string, value: any) {
     if (this.options && key in this.options) {
       if (key === 'uniqueIds') {
-        this.sizes.forEach((_, key) => {
-          if (!value.includes(key)) {
-            this.sizes.delete(key)
+        this.sizes.forEach((_, _key) => {
+          if (!value.includes(_key)) {
+            this.sizes.delete(_key)
           }
         })
       }
